@@ -4,7 +4,12 @@
 
 // 1st: pull initial budgetItems/lastId from localStorage to set initial values
 
+var budgetItems = JSON.parse(localStorage.getItem("budgetItems"));
+var lastID = localStorage.getItem("lastID") || 0;
 
+if (!Array.isArray(budgetItems)) {
+    budgetItems = [];
+}
 
 // ======================
 // FUNCTIONS
@@ -22,7 +27,18 @@
 // ======================
 
 // 2nd: wire up click event on 'Enter New Budget Item' button to toggle display of form
+$("#toggleFormButton").on("click", function() {
+    var button = $("#toggleFormButton");
+    var form = $("#addItemForm");
 
+    form.toggle("slow", function() {
+      if ($(this).is(":visible")) {
+          button.text("Hide Form");
+      } else {
+          button.text("Enter New Budget Item");
+      }
+    });
+});
 
 // 3rd: on click of 'Add Budget Item' button, gather user input and add newest item to budgetItems array
 // each budget item should include: id / date / name / category / amount / notes
