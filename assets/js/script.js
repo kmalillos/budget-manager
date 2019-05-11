@@ -97,6 +97,21 @@ $("#addItem").on("click", function (event) {
 });
 
 // 6th: on change of the category dropdown, show filtered budgetItems and total
+$("#categoryFilter").on("change", function() {
+    // console.log("Category Filter: ", this);
+
+    var category = $(this).val();
+    // console.log(category);
+
+    var categoryItems = budgetItems.filter(function(item) {
+        return item.category == category;
+    });
+
+    console.log(categoryItems);
+
+    // re-render filters items
+    renderItems(categoryItems);
+});
 
 // 7th: on click of the delete button on a given row, delete that budgetItem
 
