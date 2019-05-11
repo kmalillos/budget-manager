@@ -33,19 +33,28 @@ function renderItems(items) {
 
     // make table row for each budget item
     items.forEach(function (item) {
-        var row = `<tr><td>${item.date}</td><td>${item.name}</td><td>${item.category}</td><td>${item.amount}</td><td>${item.notes}</td><td class="delete">X</td></tr>`
+        var row = `<tr><td>${item.date}</td><td>${item.name}</td><td>${item.category}</td><td>$${parseFloat(item.amount).toFixed(2)}</td><td>${item.notes}</td><td class="delete">X</td></tr>`
         tbody.prepend(row);
     });
+
+    // get total amount for all items or categories
+    var totalAmount = items.reduce(function (accum, item) {
+        return accum + parseFloat(item.amount);
+    }, 0);
+
+    $("#total").text(`$${totalAmount.toFixed(2)}`);
 };
 
 // ======================
 // MAIN PROCESS
 // ======================
 
+// call render items at the beginning
 renderItems();
 
 // 2nd: wire up click event on 'Enter New Budget Item' button to toggle display of form
 $("#toggleFormButton").on("click", function () {
+    // console.log("toggle button: ", this);
     var button = $("#toggleFormButton");
     var form = $("#addItemForm");
 
@@ -76,15 +85,18 @@ $("#addItem").on("click", function (event) {
     console.log(budgetItem);
     budgetItems.push(budgetItem);
 
+    // call update storage
     updateStorage();
+
+    // call render items at addItem on-click
+    renderItems();
 
     // clears form; .val("") -> sets whatever is inside
     $("#addItemForm input, #addItemForm select").val("");
-})
 
+});
 
 // 6th: on change of the category dropdown, show filtered budgetItems and total
-
 
 // 7th: on click of the delete button on a given row, delete that budgetItem
 
