@@ -17,7 +17,6 @@ if (!Array.isArray(budgetItems)) {
 
 // 4th: update localStorage with latest budgetItems and latest lastID
 
-
 // 5th: render budgetItems on table
 
 
@@ -43,6 +42,24 @@ $("#toggleFormButton").on("click", function() {
 // 3rd: on click of 'Add Budget Item' button, gather user input and add newest item to budgetItems array
 // each budget item should include: id / date / name / category / amount / notes
 // (also, trigger localStorage update and trigger budgetItems rerender, once created)
+$("#addItem").on("click", function(event) {
+    event.preventDefault();
+  
+    var budgetItem = {
+        id: ++lastID,
+        date: moment().format('LLL'),
+        name: $("#name").val().trim(),
+        category: $("#category").val(),
+        amount: $("#amount").val().trim() || "0",
+        notes: $("#notes").val().trim()
+    };
+
+    console.log(budgetItem);
+    budgetItems.push(budgetItem);
+
+    // clears form; .val("") -> sets whatever is inside
+    $("#addItemForm input, #addItemForm select").val("");
+})
 
 
 // 6th: on change of the category dropdown, show filtered budgetItems and total
